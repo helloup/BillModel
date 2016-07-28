@@ -1,5 +1,8 @@
 package org.homjie.bill.core;
 
+import static org.homjie.bill.core.SettleCharge.NONE;
+import static org.homjie.bill.core.SettleCharge.NONE_IGNORE;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -27,6 +30,8 @@ public class Charge implements Comparable<Charge> {
 
 	Charge parent;
 
+	private Charge root;
+
 	private boolean needValidate = true;
 
 	/**
@@ -52,7 +57,7 @@ public class Charge implements Comparable<Charge> {
 	 */
 	public Charge addCharge(Charge charge) {
 		needValidate = true;
-		charges.add(this);
+		charges.add(charge);
 		charge.parent = this;
 		return this;
 	}
@@ -142,6 +147,7 @@ public class Charge implements Comparable<Charge> {
 	 * @Date 2016年7月26日 下午5:16:27
 	 */
 	void validate() {
+
 		boolean items_empty = items.isEmpty();
 		boolean charges_empty = charges.isEmpty();
 		if (items_empty && charges_empty)
@@ -150,13 +156,14 @@ public class Charge implements Comparable<Charge> {
 			throw new IllegalStateException("The structure is not illegal!");
 		if (items_empty) {
 			// 包含多个Charge
-			if (sCharge == null)
+			SettleCharge sc = getRoot().sCharge;
+			if (sCharge == null && (sc.equals(NONE) || sc.equals(NONE_IGNORE)))
 				throw new IllegalStateException("The structure is not illegal!");
 			charges.forEach(Charge::validate);
 		} else {
 			// 包含多个Item
 			SettleCharge parentSettle = parent.sCharge;
-			if (parentSettle.equals(SettleCharge.NONE) || parentSettle.equals(SettleCharge.NONE_IGNORE)) {
+			if (parentSettle.equals(NONE) || parentSettle.equals(NONE_IGNORE)) {
 				if (sItem == null)
 					throw new IllegalStateException("The structure is not illegal!");
 			}
@@ -196,5 +203,18 @@ public class Charge implements Comparable<Charge> {
 
 	public Charge getParent() {
 		return parent;
+	}
+
+	public Charge getRoot() {
+		if (parent == null) {
+			root = this;
+		} else {
+			Charge r = parent;
+			while (r != null) {
+				root = r;
+				r = r.parent;
+			}
+		}
+		return root;
 	}
 }
