@@ -148,28 +148,39 @@ public class Charge implements Comparable<Charge> {
 	 */
 	void validate() {
 
-		boolean items_empty = items.isEmpty();
-		boolean charges_empty = charges.isEmpty();
+		validate(this);
+
+		needValidate = false;
+	}
+
+	private void validate(Charge charge) {
+		validate(charge, charge);
+	}
+
+	private void validate(Charge charge, Charge root) {
+		boolean items_empty = charge.items.isEmpty();
+		boolean charges_empty = charge.charges.isEmpty();
 		if (items_empty && charges_empty)
 			throw new IllegalStateException("The structure is not illegal!");
 		if (!items_empty && !charges_empty)
 			throw new IllegalStateException("The structure is not illegal!");
+
 		if (items_empty) {
 			// 包含多个Charge
-			SettleCharge sc = getRoot().sCharge;
-			if (sCharge == null && (sc.equals(NONE) || sc.equals(NONE_IGNORE)))
+			SettleCharge sc = charge.sCharge;
+
+			if (!sc.equals(NONE) && !sc.equals(NONE_IGNORE))
+				return;
+			if (sCharge == null)
 				throw new IllegalStateException("The structure is not illegal!");
-			charges.forEach(Charge::validate);
+			charge.charges.forEach(c -> validate(c, root));
 		} else {
 			// 包含多个Item
-			SettleCharge parentSettle = parent.sCharge;
-			if (parentSettle.equals(NONE) || parentSettle.equals(NONE_IGNORE)) {
-				if (sItem == null)
-					throw new IllegalStateException("The structure is not illegal!");
-			}
+			if (sItem == null)
+				throw new IllegalStateException("The structure is not illegal!");
+
 		}
 
-		needValidate = false;
 	}
 
 	@Override
