@@ -169,4 +169,32 @@ public class Charge implements Comparable<Charge> {
 	public int compareTo(Charge c) {
 		return c.priority - this.priority;
 	}
+
+	public int getPriority() {
+		return priority;
+	}
+
+	public List<Item> getItems() {
+		return items;
+	}
+
+	public List<Charge> getCharges() {
+		return charges;
+	}
+
+	public List<MonitorCharge> getMonitors() {
+		return monitors;
+	}
+
+	public SettleItem getsItem() {
+		return sItem;
+	}
+
+	public SettleCharge getsCharge() {
+		return sCharge;
+	}
+
+	public Charge getParent() {
+		return parent;
+	}
 }
