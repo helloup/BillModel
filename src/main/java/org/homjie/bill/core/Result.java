@@ -25,47 +25,77 @@ public class Result {
 	 */
 	public static BigDecimal calculate(Charge charge, BigDecimal money) {
 		charge.validate();
+
 		boolean items_empty = charge.items.isEmpty();
 		if (items_empty) {
 			// 包含多个Charge
-			for (Charge c : charge.charges) {
-				money = calculate(c, money);
+
+			SettleCharge sc = charge.sCharge;
+			if (sc.equals(SettleCharge.TOTAL)) {
+				// 能够全部结清
+				BigDecimal complete = charge.complete();
+				if (money.compareTo(complete) >= 0) {
+					complete(charge);
+					money = money.subtract(complete);
+				}
+				return money;
+			} else if (sc.equals(SettleCharge.SINGLE) || sc.equals(SettleCharge.SINGLE_IGNORE)) {
+				// 子Charge收费结算策略默认为TOTAL
+				for (Charge c : charge.charges) {
+					BigDecimal complete = c.complete();
+					if (money.compareTo(complete) >= 0) {
+						complete(c);
+						money = money.subtract(complete);
+					} else {
+						break;
+					}
+				}
+				return money;
+
+			} else {
+				// 包含多个Charge
+				for (Charge c : charge.charges) {
+					money = calculate(c, money);
+				}
 			}
+
 		} else {
 			// 包含多个Item
-			SettleCharge sCharge = charge.parent.sCharge;
-			switch (sCharge) {
+
+			// 启动当前的明细项结算策略
+			SettleItem sItem = charge.sItem;
+			switch (sItem) {
 			case TOTAL:
-			case SINGLE:
-			case SINGLE_IGNORE:
-				// 忽略当前的明细项结算策略
 				money = total(charge, money);
 				break;
+			case SINGLE:
+			case SINGLE_MORE:
+			case SINGLE_LESS:
+				money = single(charge, money);
+				break;
 			case NONE:
-			case NONE_IGNORE:
-				// 启动当前的明细项结算策略
-				SettleItem sItem = charge.sItem;
-				switch (sItem) {
-				case TOTAL:
-					money = total(charge, money);
-					break;
-				case SINGLE:
-				case SINGLE_MORE:
-				case SINGLE_LESS:
-					money = single(charge, money);
-					break;
-				case NONE:
-				case NONE_MORE:
-				case NONE_LESS:
-					money = none(charge, money);
-					break;
-				}
-
+			case NONE_MORE:
+			case NONE_LESS:
+				money = none(charge, money);
 				break;
 			}
+
 		}
 
 		return money;
+	}
+
+	private static void complete(Charge charge) {
+		boolean items_empty = charge.items.isEmpty();
+		if (items_empty) {
+			// 包含多个Charge
+			charge.charges.forEach(Result::complete);
+		} else {
+			// 包含多个Item
+			for (Item item : charge.items) {
+				item.pay_kh = item.pay_dh;
+			}
+		}
 	}
 
 	private static BigDecimal total(Charge charge, BigDecimal money) {
