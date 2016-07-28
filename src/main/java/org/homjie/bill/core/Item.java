@@ -3,6 +3,9 @@ package org.homjie.bill.core;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+import com.google.common.collect.Lists;
 
 /**
  * @Class Item
@@ -12,7 +15,7 @@ import java.math.BigDecimal;
  */
 public class Item {
 
-	Priority<Item> priority;
+	int priority;
 
 	/**
 	 * 应还金额
@@ -34,6 +37,8 @@ public class Item {
 	 */
 	BigDecimal pay_kh = BigDecimal.ZERO;
 
+	List<MonitorItem> monitors = Lists.newArrayList();
+
 	public Item(BigDecimal pay_yh, BigDecimal pay_sh) {
 		checkNotNull(pay_yh);
 		checkNotNull(pay_sh);
@@ -42,9 +47,59 @@ public class Item {
 		this.pay_dh = pay_yh.subtract(pay_sh);
 	}
 
-	public Item priority(int priority) {
-		this.priority = new Priority<Item>(priority, this);
+	public Item addMonitor(MonitorItem monitor) {
+		monitors.add(monitor);
+		monitor.link(this);
 		return this;
+	}
+
+	/**
+	 * @Title priority
+	 * @Description 设置优先级
+	 * @Author JieHong
+	 * @Date 2016年7月28日 下午3:30:44
+	 * @param priority
+	 * @return
+	 */
+	public Item priority(int priority) {
+		this.priority = priority;
+		return this;
+	}
+
+	public int getPriority() {
+		return priority;
+	}
+
+	public BigDecimal getPay_yh() {
+		return pay_yh;
+	}
+
+	public BigDecimal getPay_sh() {
+		return pay_sh;
+	}
+
+	public BigDecimal getPay_dh() {
+		return pay_dh;
+	}
+
+	public BigDecimal getPay_kh() {
+		return pay_kh;
+	}
+
+	public List<MonitorItem> getMonitors() {
+		return monitors;
+	}
+
+	/**
+	 * @Title isComplete
+	 * @Description 是否还清
+	 * @Author JieHong
+	 * @Date 2016年7月28日 下午3:31:08
+	 * @return
+	 */
+	public boolean isComplete() {
+		// 待还金额 == 可还金额
+		return pay_dh.compareTo(pay_kh) == 0;
 	}
 
 }
