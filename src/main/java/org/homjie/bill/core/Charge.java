@@ -3,6 +3,7 @@ package org.homjie.bill.core;
 import static org.homjie.bill.core.SettleCharge.NONE;
 import static org.homjie.bill.core.SettleCharge.NONE_IGNORE;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -14,7 +15,9 @@ import com.google.common.collect.Lists;
  * @Author JieHong
  * @Date 2016年7月26日 下午4:58:11
  */
-public class Charge implements Comparable<Charge> {
+public class Charge implements Serializable, Comparable<Charge> {
+
+	private static final long serialVersionUID = 5042097570166836993L;
 
 	int priority;
 
@@ -22,15 +25,13 @@ public class Charge implements Comparable<Charge> {
 
 	List<Charge> charges = Lists.newArrayList();
 
-	List<MonitorCharge> monitors = Lists.newArrayList();
+	transient List<MonitorCharge> monitors = Lists.newArrayList();
 
 	SettleItem sItem;
 
 	SettleCharge sCharge;
 
 	Charge parent;
-
-	private Charge root;
 
 	private boolean needValidate = true;
 
@@ -104,10 +105,17 @@ public class Charge implements Comparable<Charge> {
 		return this;
 	}
 
-	public Charge addMonitor(MonitorCharge monitor) {
+	/**
+	 * @Title addMonitor
+	 * @Description 添加监控器
+	 * @Author JieHong
+	 * @Date 2016年7月29日 上午10:42:58
+	 * @param monitor
+	 * @return 获取该Charge在监控器的索引
+	 */
+	public int addMonitor(MonitorCharge monitor) {
 		monitors.add(monitor);
-		monitor.link(this);
-		return this;
+		return monitor.link(this);
 	}
 
 	/**
@@ -218,6 +226,7 @@ public class Charge implements Comparable<Charge> {
 	}
 
 	public Charge getRoot() {
+		Charge root = null;
 		if (parent == null) {
 			root = this;
 		} else {

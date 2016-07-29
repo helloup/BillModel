@@ -2,6 +2,7 @@ package org.homjie.bill.core;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import com.google.common.collect.Lists;
  * @Author JieHong
  * @Date 2016年7月26日 下午4:58:30
  */
-public class Item {
+public class Item implements Serializable {
+
+	private static final long serialVersionUID = -8662626703345363496L;
 
 	int priority;
 
@@ -37,7 +40,7 @@ public class Item {
 	 */
 	BigDecimal pay_kh = BigDecimal.ZERO;
 
-	List<MonitorItem> monitors = Lists.newArrayList();
+	transient List<MonitorItem> monitors = Lists.newArrayList();
 
 	public Item(BigDecimal pay_yh, BigDecimal pay_sh) {
 		checkNotNull(pay_yh);
@@ -47,10 +50,17 @@ public class Item {
 		this.pay_dh = pay_yh.subtract(pay_sh);
 	}
 
-	public Item addMonitor(MonitorItem monitor) {
+	/**
+	 * @Title addMonitor
+	 * @Description 添加监控器
+	 * @Author JieHong
+	 * @Date 2016年7月29日 上午10:47:26
+	 * @param monitor
+	 * @return 获取该Item在监控器的索引
+	 */
+	public int addMonitor(MonitorItem monitor) {
 		monitors.add(monitor);
-		monitor.link(this);
-		return this;
+		return monitor.link(this);
 	}
 
 	/**

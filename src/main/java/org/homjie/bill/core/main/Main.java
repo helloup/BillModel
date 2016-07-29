@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import org.homjie.bill.core.Charge;
 import org.homjie.bill.core.Item;
-import org.homjie.bill.core.Result;
+import org.homjie.bill.core.Repay;
 import org.homjie.bill.core.SettleCharge;
 
 public class Main {
@@ -39,7 +39,7 @@ public class Main {
 		charge4.addCharge(charge1).addCharge(charge2);
 		charge5.addCharge(charge3).addCharge(charge4).settle(SettleCharge.TOTAL);
 
-		BigDecimal money = Result.calculate(charge5, new BigDecimal("100"));
+		BigDecimal money = Repay.result(charge5, new BigDecimal("100"));
 		System.out.println(money);
 	}
 

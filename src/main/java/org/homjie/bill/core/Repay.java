@@ -4,18 +4,18 @@ import java.math.BigDecimal;
 import java.util.Collections;
 
 /**
- * @Class Result
- * @Description 结果类
+ * @Class Repay
+ * @Description 还款
  * @Author JieHong
  * @Date 2016年7月28日 下午4:57:19
  */
-public class Result {
+public class Repay {
 
-	private Result() {
+	private Repay() {
 	}
 
 	/**
-	 * @Title calculate
+	 * @Title result
 	 * @Description 对收费进行还款计算
 	 * @Author JieHong
 	 * @Date 2016年7月28日 下午4:59:44
@@ -24,7 +24,7 @@ public class Result {
 	 *            还款金额
 	 * @return 剩余金额
 	 */
-	public static BigDecimal calculate(Charge charge, BigDecimal money) {
+	public static BigDecimal result(Charge charge, BigDecimal money) {
 		charge.validate();
 
 		boolean items_empty = charge.items.isEmpty();
@@ -58,7 +58,7 @@ public class Result {
 			} else {
 				// 包含多个Charge
 				for (Charge c : charge.charges) {
-					money = calculate(c, money);
+					money = result(c, money);
 				}
 			}
 
@@ -93,7 +93,7 @@ public class Result {
 		boolean items_empty = charge.items.isEmpty();
 		if (items_empty) {
 			// 包含多个Charge
-			charge.charges.forEach(Result::complete);
+			charge.charges.forEach(Repay::complete);
 		} else {
 			// 包含多个Item
 			for (Item item : charge.items) {
