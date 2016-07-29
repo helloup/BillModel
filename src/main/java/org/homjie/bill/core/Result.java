@@ -1,6 +1,7 @@
 package org.homjie.bill.core;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 
 /**
  * @Class Result
@@ -15,7 +16,7 @@ public class Result {
 
 	/**
 	 * @Title calculate
-	 * @Description 对收费进行还款
+	 * @Description 对收费进行还款计算
 	 * @Author JieHong
 	 * @Date 2016年7月28日 下午4:59:44
 	 * @param charge
@@ -41,6 +42,8 @@ public class Result {
 				return money;
 			} else if (sc.equals(SettleCharge.SINGLE) || sc.equals(SettleCharge.SINGLE_IGNORE)) {
 				// 子Charge收费结算策略默认为TOTAL
+				if (sc.equals(SettleCharge.SINGLE))
+					Collections.sort(charge.charges);
 				for (Charge c : charge.charges) {
 					BigDecimal complete = c.complete();
 					if (money.compareTo(complete) >= 0) {
@@ -64,6 +67,7 @@ public class Result {
 
 			// 启动当前的明细项结算策略
 			SettleItem sItem = charge.sItem;
+			Collections.sort(charge.items, sItem.getComparator());
 			switch (sItem) {
 			case TOTAL:
 				money = total(charge, money);

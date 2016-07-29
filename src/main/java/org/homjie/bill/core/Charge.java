@@ -153,32 +153,33 @@ public class Charge implements Comparable<Charge> {
 		needValidate = false;
 	}
 
+	/**
+	 * @Title validate
+	 * @Description 校验当前Charge和其后代Charge
+	 * @Author JieHong
+	 * @Date 2016年7月29日 上午9:24:39
+	 * @param charge
+	 */
 	private void validate(Charge charge) {
-		validate(charge, charge);
-	}
-
-	private void validate(Charge charge, Charge root) {
 		boolean items_empty = charge.items.isEmpty();
 		boolean charges_empty = charge.charges.isEmpty();
 		if (items_empty && charges_empty)
-			throw new IllegalStateException("The structure is not illegal!");
+			throw new IllegalStateException("The structure is not illegal, not both be empty!");
 		if (!items_empty && !charges_empty)
-			throw new IllegalStateException("The structure is not illegal!");
+			throw new IllegalStateException("The structure is not illegal, one should be empty!");
 
 		if (items_empty) {
 			// 包含多个Charge
 			SettleCharge sc = charge.sCharge;
-
+			if (sc == null)
+				throw new IllegalStateException("The structure is not illegal, need to specify SettleCharge!");
 			if (!sc.equals(NONE) && !sc.equals(NONE_IGNORE))
 				return;
-			if (sCharge == null)
-				throw new IllegalStateException("The structure is not illegal!");
-			charge.charges.forEach(c -> validate(c, root));
+			charge.charges.forEach(Charge::validate);
 		} else {
 			// 包含多个Item
-			if (sItem == null)
-				throw new IllegalStateException("The structure is not illegal!");
-
+			if (charge.sItem == null)
+				throw new IllegalStateException("The structure is not illegal, need to specify SettleItem!");
 		}
 
 	}

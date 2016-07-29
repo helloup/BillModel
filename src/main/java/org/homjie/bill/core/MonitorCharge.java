@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 
 /**
  * @Class MonitorCharge
- * @Description 监控收费
+ * @Description 收费监控器
  * @Author JieHong
  * @Date 2016年7月28日 下午1:41:38
  */

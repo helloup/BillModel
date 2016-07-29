@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 
 /**
  * @Class MonitorItem
- * @Description 明细项监控
+ * @Description 明细项监控器
  * @Author JieHong
  * @Date 2016年7月28日 下午1:48:40
  */

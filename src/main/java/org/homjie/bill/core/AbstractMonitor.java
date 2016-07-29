@@ -1,8 +1,8 @@
 package org.homjie.bill.core;
 
 /**
- * @Class Monitor
- * @Description 资金流向监控器
+ * @Class AbstractMonitor
+ * @Description 监控器
  * @Author JieHong
  * @Date 2016年7月28日 下午1:40:32
  */

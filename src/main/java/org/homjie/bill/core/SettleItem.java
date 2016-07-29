@@ -11,7 +11,7 @@ import java.util.Comparator;
 public enum SettleItem {
 
 	/**
-	 * 从有效级高的开始结算，所有子Item必须还清
+	 * 所有子Item必须还清
 	 */
 	TOTAL(ItemComparators.PRIORITY),
 

@@ -9,7 +9,7 @@ package org.homjie.bill.core;
 public enum SettleCharge {
 
 	/**
-	 * @Description 从有效级高的开始结算，所有子Charge必须还清，将忽略明细项结算策略、子Charge收费结算策略
+	 * @Description 所有子Charge必须还清，将忽略明细项结算策略、子Charge收费结算策略
 	 */
 	TOTAL,
 
