@@ -27,11 +27,11 @@
   - `SINGLE_LESS`：忽略有效级，从待还金额小的开始结算，单个子 `Item` 必须还清
   - `NONE_LESS`：忽略有效级，从待还金额小的开始结算，单个子 `Item` 够还多少就还多少
  - `SettleCharge` 收费结算策略
-  - `TOTAL`：所有子Charge必须还清，将忽略明细项结算策略、子Charge收费结算策略
-  - `SINGLE`：从有效级高的开始结算，单个子Charge必须还清，将忽略明细项结算策略、子Charge收费结算策略固定为TOTAL
-  - `NONE`：从有效级高的开始结算，单个子Charge够还多少就还多少
-  - `SINGLE_IGNORE`：忽略优先级开始结算，单个子Charge必须还清，将忽略明细项结算策略、子Charge收费结算策略固定为TOTAL
-  - `NONE_IGNORE`：忽略优先级开始结算，单个子Charge够还多少就还多少
+  - `TOTAL`：所有子 `Charge` 必须还清，将忽略明细项结算策略、子 `Charge` 收费结算策略
+  - `SINGLE`：从有效级高的开始结算，单个子 `Charge` 必须还清，将忽略明细项结算策略、子 `Charge` 收费结算策略固定为 `TOTAL`
+  - `NONE`：从有效级高的开始结算，单个子 `Charge` 够还多少就还多少
+  - `SINGLE_IGNORE`：忽略优先级开始结算，单个子 `Charge` 必须还清，将忽略明细项结算策略、子 `Charge` 收费结算策略固定为 `TOTAL`
+  - `NONE_IGNORE`：忽略优先级开始结算，单个子 `Charge` 够还多少就还多少
 
 ---
 
