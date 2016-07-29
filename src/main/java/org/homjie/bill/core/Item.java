@@ -112,4 +112,9 @@ public class Item implements Serializable {
 		return pay_dh.compareTo(pay_kh) == 0;
 	}
 
+	@Override
+	public String toString() {
+		return "Item [priority=" + priority + ", pay_yh=" + pay_yh + ", pay_sh=" + pay_sh + ", pay_dh=" + pay_dh + ", pay_kh=" + pay_kh + "]";
+	}
+
 }

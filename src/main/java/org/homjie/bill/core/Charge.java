@@ -31,7 +31,7 @@ public class Charge implements Serializable, Comparable<Charge> {
 
 	SettleCharge sCharge;
 
-	Charge parent;
+	transient Charge parent;
 
 	private boolean needValidate = true;
 
@@ -128,6 +128,10 @@ public class Charge implements Serializable, Comparable<Charge> {
 	public BigDecimal complete() {
 		if (needValidate)
 			validate();
+		return complete(BigDecimal.ZERO);
+	}
+
+	BigDecimal completeWithoutValidate() {
 		return complete(BigDecimal.ZERO);
 	}
 
@@ -237,5 +241,10 @@ public class Charge implements Serializable, Comparable<Charge> {
 			}
 		}
 		return root;
+	}
+
+	@Override
+	public String toString() {
+		return "Charge [priority=" + priority + ", items=" + items + ", charges=" + charges + "]";
 	}
 }

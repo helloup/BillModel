@@ -34,7 +34,7 @@ public class Repay {
 			SettleCharge sc = charge.sCharge;
 			if (sc.equals(SettleCharge.TOTAL)) {
 				// 能够全部结清
-				BigDecimal complete = charge.complete();
+				BigDecimal complete = charge.completeWithoutValidate();
 				if (money.compareTo(complete) >= 0) {
 					complete(charge);
 					money = money.subtract(complete);
@@ -45,7 +45,7 @@ public class Repay {
 				if (sc.equals(SettleCharge.SINGLE))
 					Collections.sort(charge.charges);
 				for (Charge c : charge.charges) {
-					BigDecimal complete = c.complete();
+					BigDecimal complete = c.completeWithoutValidate();
 					if (money.compareTo(complete) >= 0) {
 						complete(c);
 						money = money.subtract(complete);
@@ -56,6 +56,8 @@ public class Repay {
 				return money;
 
 			} else {
+				if (sc.equals(SettleCharge.NONE))
+					Collections.sort(charge.charges);
 				// 包含多个Charge
 				for (Charge c : charge.charges) {
 					money = result(c, money);
@@ -103,7 +105,7 @@ public class Repay {
 	}
 
 	private static BigDecimal total(Charge charge, BigDecimal money) {
-		BigDecimal pay_dh = charge.complete();
+		BigDecimal pay_dh = charge.completeWithoutValidate();
 		if (money.compareTo(pay_dh) >= 0) {
 			for (Item item : charge.items) {
 				item.pay_kh = item.pay_dh;
