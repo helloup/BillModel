@@ -18,8 +18,6 @@ public class MonitorCharge extends AbstractMonitor {
 
 	private List<Charge> charges = Lists.newArrayList();
 
-	private List<MonitorResult> results = Lists.newArrayList();
-
 	/**
 	 * @Title link
 	 * @Description 监控Charge
@@ -76,20 +74,6 @@ public class MonitorCharge extends AbstractMonitor {
 				mr.pay_kh = mr.pay_kh.add(item.pay_kh);
 			}
 		}
-	}
-
-	/**
-	 * @Title history
-	 * @Description 通过版本号获取结果
-	 * @Author JieHong
-	 * @Date 2016年7月29日 上午10:56:01
-	 * @param version
-	 * @return
-	 */
-	public MonitorResult history(int version) {
-		if (version >= 0 && results.size() > version)
-			return results.get(version);
-		throw new NullPointerException("Version does not exist!");
 	}
 
 }

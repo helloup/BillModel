@@ -18,8 +18,6 @@ public class MonitorItem extends AbstractMonitor {
 
 	private List<Item> items = Lists.newArrayList();
 
-	private List<MonitorResult> results = Lists.newArrayList();
-
 	/**
 	 * @Title link
 	 * @Description 监控明细项
@@ -62,20 +60,6 @@ public class MonitorItem extends AbstractMonitor {
 
 		results.add(mr);
 		return results.size() - 1;
-	}
-
-	/**
-	 * @Title history
-	 * @Description 通过版本号获取结果
-	 * @Author JieHong
-	 * @Date 2016年7月29日 上午10:57:02
-	 * @param version
-	 * @return
-	 */
-	public MonitorResult history(int version) {
-		if (version >= 0 && results.size() > version)
-			return results.get(version);
-		throw new NullPointerException("Version does not exist!");
 	}
 
 }
