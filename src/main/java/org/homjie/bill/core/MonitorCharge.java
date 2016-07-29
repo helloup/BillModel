@@ -31,10 +31,25 @@ public class MonitorCharge extends AbstractMonitor {
 		return charges.size() - 1;
 	}
 
+	/**
+	 * @Title getCharges
+	 * @Description 获取所有监控的Charge
+	 * @Author JieHong
+	 * @Date 2016年7月29日 下午2:18:23
+	 * @return
+	 */
 	public List<Charge> getCharges() {
 		return charges;
 	}
 
+	/**
+	 * @Title getCharge
+	 * @Description 获取指定索引的Charge
+	 * @Author JieHong
+	 * @Date 2016年7月29日 下午2:18:41
+	 * @param index
+	 * @return
+	 */
 	public Charge getCharge(int index) {
 		if (index < 0 || charges.size() <= index)
 			throw new NullPointerException("Index does not exist!");

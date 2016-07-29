@@ -20,6 +20,13 @@ public abstract class AbstractMonitor {
 		this.monitor = monitor;
 	}
 
+	/**
+	 * @Title get
+	 * @Description 获取监视器
+	 * @Author JieHong
+	 * @Date 2016年7月29日 下午2:19:13
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> T get() {
 		return (T) monitor;

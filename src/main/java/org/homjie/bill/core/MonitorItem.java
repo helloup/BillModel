@@ -31,10 +31,25 @@ public class MonitorItem extends AbstractMonitor {
 		return items.size() - 1;
 	}
 
+	/**
+	 * @Title getItems
+	 * @Description 获取所有监控的Item
+	 * @Author JieHong
+	 * @Date 2016年7月29日 下午2:19:46
+	 * @return
+	 */
 	public List<Item> getItems() {
 		return items;
 	}
 
+	/**
+	 * @Title getItem
+	 * @Description 获取指定索引的Item
+	 * @Author JieHong
+	 * @Date 2016年7月29日 下午2:20:01
+	 * @param index
+	 * @return
+	 */
 	public Item getItem(int index) {
 		if (index < 0 || items.size() <= index)
 			throw new NullPointerException("Index does not exist!");

@@ -36,18 +36,46 @@ public class MonitorResult implements Serializable {
 	MonitorResult() {
 	}
 
+	/**
+	 * @Title getPay_yh
+	 * @Description 应还金额
+	 * @Author JieHong
+	 * @Date 2016年7月29日 下午2:20:36
+	 * @return
+	 */
 	public BigDecimal getPay_yh() {
 		return pay_yh;
 	}
 
+	/**
+	 * @Title getPay_sh
+	 * @Description 实还金额
+	 * @Author JieHong
+	 * @Date 2016年7月29日 下午2:20:45
+	 * @return
+	 */
 	public BigDecimal getPay_sh() {
 		return pay_sh;
 	}
 
+	/**
+	 * @Title getPay_dh
+	 * @Description 待还金额
+	 * @Author JieHong
+	 * @Date 2016年7月29日 下午2:20:54
+	 * @return
+	 */
 	public BigDecimal getPay_dh() {
 		return pay_dh;
 	}
 
+	/**
+	 * @Title getPay_kh
+	 * @Description 可还金额
+	 * @Author JieHong
+	 * @Date 2016年7月29日 下午2:21:04
+	 * @return
+	 */
 	public BigDecimal getPay_kh() {
 		return pay_kh;
 	}
