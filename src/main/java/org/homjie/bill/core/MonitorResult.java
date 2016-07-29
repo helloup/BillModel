@@ -33,6 +33,9 @@ public class MonitorResult implements Serializable {
 	 */
 	BigDecimal pay_kh = BigDecimal.ZERO;
 
+	MonitorResult() {
+	}
+
 	public BigDecimal getPay_yh() {
 		return pay_yh;
 	}

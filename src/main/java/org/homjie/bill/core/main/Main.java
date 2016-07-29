@@ -66,7 +66,7 @@ public class Main {
 
 		MonitorResult h2 = mc1.history(v2);
 		System.out.println(gson.toJson(h2));
-
+		
 	}
 
 	public static void test2() {
