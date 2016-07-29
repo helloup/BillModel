@@ -50,9 +50,7 @@ public class MonitorCharge extends AbstractMonitor {
 	 * @return
 	 */
 	public int version(int index) {
-		if (index < 0 || charges.size() <= index)
-			throw new NullPointerException("Index does not exist!");
-		Charge charge = charges.get(index);
+		Charge charge = getCharge(index);
 
 		MonitorResult mr = new MonitorResult();
 		version(charge, mr);
