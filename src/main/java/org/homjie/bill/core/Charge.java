@@ -27,9 +27,9 @@ public class Charge implements Serializable, Comparable<Charge> {
 
 	transient List<MonitorCharge> monitors = Lists.newArrayList();
 
-	SettleItem sItem;
+	SettleItem stlItem;
 
-	SettleCharge sCharge;
+	SettleCharge stlCharge;
 
 	transient Charge parent;
 
@@ -87,7 +87,7 @@ public class Charge implements Serializable, Comparable<Charge> {
 	 */
 	public Charge settle(SettleItem sItem) {
 		needValidate = true;
-		this.sItem = sItem;
+		this.stlItem = sItem;
 		return this;
 	}
 
@@ -101,7 +101,7 @@ public class Charge implements Serializable, Comparable<Charge> {
 	 */
 	public Charge settle(SettleCharge sCharge) {
 		needValidate = true;
-		this.sCharge = sCharge;
+		this.stlCharge = sCharge;
 		return this;
 	}
 
@@ -182,7 +182,7 @@ public class Charge implements Serializable, Comparable<Charge> {
 
 		if (items_empty) {
 			// 包含多个Charge
-			SettleCharge sc = charge.sCharge;
+			SettleCharge sc = charge.stlCharge;
 			if (sc == null)
 				throw new IllegalStateException("The structure is not illegal, need to specify SettleCharge!");
 			if (!sc.equals(NONE) && !sc.equals(NONE_IGNORE))
@@ -190,7 +190,7 @@ public class Charge implements Serializable, Comparable<Charge> {
 			charge.charges.forEach(Charge::validate);
 		} else {
 			// 包含多个Item
-			if (charge.sItem == null)
+			if (charge.stlItem == null)
 				throw new IllegalStateException("The structure is not illegal, need to specify SettleItem!");
 		}
 
@@ -217,16 +217,12 @@ public class Charge implements Serializable, Comparable<Charge> {
 		return monitors;
 	}
 
-	public SettleItem getsItem() {
-		return sItem;
+	public SettleItem getStlItem() {
+		return stlItem;
 	}
 
-	public SettleCharge getsCharge() {
-		return sCharge;
-	}
-
-	public Charge getParent() {
-		return parent;
+	public SettleCharge getStlCharge() {
+		return stlCharge;
 	}
 
 	public Charge getRoot() {

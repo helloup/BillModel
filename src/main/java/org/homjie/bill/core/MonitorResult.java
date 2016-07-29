@@ -49,4 +49,9 @@ public class MonitorResult implements Serializable {
 		return pay_kh;
 	}
 
+	@Override
+	public String toString() {
+		return "MonitorResult [pay_yh=" + pay_yh + ", pay_sh=" + pay_sh + ", pay_dh=" + pay_dh + ", pay_kh=" + pay_kh + "]";
+	}
+
 }

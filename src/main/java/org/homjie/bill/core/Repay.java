@@ -31,7 +31,7 @@ public class Repay {
 		if (items_empty) {
 			// 包含多个Charge
 
-			SettleCharge sc = charge.sCharge;
+			SettleCharge sc = charge.stlCharge;
 			if (sc.equals(SettleCharge.TOTAL)) {
 				// 能够全部结清
 				BigDecimal complete = charge.completeWithoutValidate();
@@ -68,7 +68,7 @@ public class Repay {
 			// 包含多个Item
 
 			// 启动当前的明细项结算策略
-			SettleItem sItem = charge.sItem;
+			SettleItem sItem = charge.stlItem;
 			Collections.sort(charge.items, sItem.getComparator());
 			switch (sItem) {
 			case TOTAL:
