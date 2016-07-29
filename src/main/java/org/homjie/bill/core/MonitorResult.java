@@ -80,6 +80,18 @@ public class MonitorResult implements Serializable {
 		return pay_kh;
 	}
 
+	/**
+	 * @Title isComplete
+	 * @Description 是否还清
+	 * @Author JieHong
+	 * @Date 2016年7月28日 下午3:31:08
+	 * @return
+	 */
+	public boolean isComplete() {
+		// 待还金额 == 可还金额
+		return pay_dh.compareTo(pay_kh) == 0;
+	}
+
 	@Override
 	public String toString() {
 		return "MonitorResult [pay_yh=" + pay_yh + ", pay_sh=" + pay_sh + ", pay_dh=" + pay_dh + ", pay_kh=" + pay_kh + "]";
