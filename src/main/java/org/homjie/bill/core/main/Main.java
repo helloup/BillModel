@@ -6,7 +6,7 @@ import org.homjie.bill.core.Charge;
 import org.homjie.bill.core.Item;
 import org.homjie.bill.core.MonitorCharge;
 import org.homjie.bill.core.MonitorResult;
-import org.homjie.bill.core.Repay;
+import org.homjie.bill.core.Settle;
 import org.homjie.bill.core.SettleCharge;
 import org.homjie.bill.core.SettleItem;
 
@@ -50,7 +50,7 @@ public class Main {
 		Charge charge6 = new Charge().addCharge(charge2).addCharge(charge3).priority(1).settle(SettleCharge.NONE);
 
 		Charge charge = new Charge().addCharge(charge5).addCharge(charge6).settle(SettleCharge.NONE);
-		BigDecimal money = Repay.result(charge, new BigDecimal("3"));
+		BigDecimal money = Settle.result(charge, new BigDecimal("3"));
 
 		System.out.println(money);
 		System.out.println(gson.toJson(charge));
@@ -80,7 +80,7 @@ public class Main {
 		Charge charge2 = new Charge().addItem(item3).addItem(item4).addItem(item5).priority(2).settle(SettleItem.SINGLE);
 
 		Charge charge = new Charge().addCharge(charge1).addCharge(charge2).settle(SettleCharge.SINGLE);
-		BigDecimal money = Repay.result(charge, new BigDecimal("12"));
+		BigDecimal money = Settle.result(charge, new BigDecimal("12"));
 
 		System.out.println(money);
 		System.out.println(gson.toJson(charge));
@@ -94,7 +94,7 @@ public class Main {
 		Charge charge = new Charge();
 
 		charge.addItem(item1).addItem(item2).addItem(item3).settle(SettleItem.SINGLE_MORE);
-		BigDecimal money = Repay.result(charge, new BigDecimal("12"));
+		BigDecimal money = Settle.result(charge, new BigDecimal("12"));
 
 		System.out.println(money);
 	}

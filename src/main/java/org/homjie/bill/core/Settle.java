@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 import java.util.Collections;
 
 /**
- * @Class Repay
- * @Description 还款
+ * @Class Settle
+ * @Description 结算
  * @Author JieHong
  * @Date 2016年7月28日 下午4:57:19
  */
-public class Repay {
+public class Settle {
 
-	private Repay() {
+	private Settle() {
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class Repay {
 		boolean items_empty = charge.items.isEmpty();
 		if (items_empty) {
 			// 包含多个Charge
-			charge.charges.forEach(Repay::complete);
+			charge.charges.forEach(Settle::complete);
 		} else {
 			// 包含多个Item
 			for (Item item : charge.items) {
