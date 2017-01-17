@@ -1,83 +1,32 @@
 package org.homjie.bill.core;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 /**
  * @Class MonitorCharge
  * @Description 收费监控器
  * @Author JieHong
  * @Date 2016年7月28日 下午1:41:38
  */
-public class MonitorCharge extends AbstractMonitor {
+public class MonitorCharge extends Monitor {
 
-	public MonitorCharge(Object monitor) {
-		super(monitor);
+	private static final long serialVersionUID = -1895717671613791841L;
+
+	private Charge charge;
+
+	public MonitorCharge(Charge charge) {
+		this.charge = charge;
 	}
 
-	private List<Charge> charges = Lists.newArrayList();
-
-	/**
-	 * @Title link
-	 * @Description 监控Charge
-	 * @Author JieHong
-	 * @Date 2016年7月29日 上午10:44:26
-	 * @param charge
-	 * @return 获取该Charge在监控器的索引
-	 */
-	int link(Charge charge) {
-		charges.add(charge);
-		return charges.size() - 1;
-	}
-
-	/**
-	 * @Title getCharges
-	 * @Description 获取所有监控的Charge
-	 * @Author JieHong
-	 * @Date 2016年7月29日 下午2:18:23
-	 * @return
-	 */
-	public List<Charge> getCharges() {
-		return charges;
-	}
-
-	/**
-	 * @Title getCharge
-	 * @Description 获取指定索引的Charge
-	 * @Author JieHong
-	 * @Date 2016年7月29日 下午2:18:41
-	 * @param index
-	 * @return
-	 */
-	public Charge getCharge(int index) {
-		if (index < 0 || charges.size() <= index)
-			throw new NullPointerException("Index does not exist!");
-		return charges.get(index);
-	}
-
-	/**
-	 * @Title version
-	 * @Description 获取索引对应Charge的结果版本号
-	 * @Author JieHong
-	 * @Date 2016年7月29日 上午10:55:06
-	 * @param index
-	 * @return
-	 */
-	public int version(int index) {
-		Charge charge = getCharge(index);
-
+	@Override
+	public MonitorResult aggregate() {
 		MonitorResult mr = new MonitorResult();
-		version(charge, mr);
-
-		results.add(mr);
-		return results.size() - 1;
+		aggregate(charge, mr);
+		return mr;
 	}
 
-	private void version(Charge charge, MonitorResult mr) {
-		if (charge.items.isEmpty()) {
+	private void aggregate(Charge charge, MonitorResult mr) {
+		if (charge.haveCharges()) {
 			// 包含多个Charge
-			charge.charges.forEach(c -> version(c, mr));
+			charge.charges.forEach(c -> aggregate(c, mr));
 		} else {
 			// 包含多个Item
 			for (Item item : charge.items) {

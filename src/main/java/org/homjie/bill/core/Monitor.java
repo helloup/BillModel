@@ -1,35 +1,41 @@
 package org.homjie.bill.core;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
 /**
- * @Class AbstractMonitor
+ * @Class Monitor
  * @Description 监控器
  * @Author JieHong
  * @Date 2016年7月28日 下午1:40:32
  */
-public abstract class AbstractMonitor {
+public abstract class Monitor implements Serializable {
 
-	private Object monitor;
+	private static final long serialVersionUID = 1L;
 
 	protected List<MonitorResult> results = Lists.newArrayList();
 
-	public AbstractMonitor(Object monitor) {
-		this.monitor = monitor;
-	}
-
 	/**
-	 * @Title get
-	 * @Description 获取监视器
+	 * @Title aggregate
+	 * @Description 聚合结果，不加入版本控制
 	 * @Author JieHong
-	 * @Date 2016年7月29日 下午2:19:13
+	 * @Date 2016年8月11日 下午2:32:52
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	public <T> T get() {
-		return (T) monitor;
+	public abstract MonitorResult aggregate();
+
+	/**
+	 * @Title version
+	 * @Description 获取结果版本号
+	 * @Author JieHong
+	 * @Date 2016年8月3日 下午3:19:41
+	 * @return
+	 */
+	public int version() {
+		results.add(aggregate());
+		return results.size() - 1;
 	}
 
 	/**

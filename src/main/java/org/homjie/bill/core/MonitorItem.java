@@ -10,11 +10,9 @@ import com.google.common.collect.Lists;
  * @Author JieHong
  * @Date 2016年7月28日 下午1:48:40
  */
-public class MonitorItem extends AbstractMonitor {
+public class MonitorItem extends Monitor {
 
-	public MonitorItem(Object monitor) {
-		super(monitor);
-	}
+	private static final long serialVersionUID = -2057627194291345739L;
 
 	private List<Item> items = Lists.newArrayList();
 
@@ -26,9 +24,8 @@ public class MonitorItem extends AbstractMonitor {
 	 * @param item
 	 * @return 获取该Item在监控器的索引
 	 */
-	int link(Item item) {
+	void link(Item item) {
 		items.add(item);
-		return items.size() - 1;
 	}
 
 	/**
@@ -42,28 +39,8 @@ public class MonitorItem extends AbstractMonitor {
 		return items;
 	}
 
-	/**
-	 * @Title getItem
-	 * @Description 获取指定索引的Item
-	 * @Author JieHong
-	 * @Date 2016年7月29日 下午2:20:01
-	 * @param index
-	 * @return
-	 */
-	public Item getItem(int index) {
-		if (index < 0 || items.size() <= index)
-			throw new NullPointerException("Index does not exist!");
-		return items.get(index);
-	}
-
-	/**
-	 * @Title version
-	 * @Description 获取结果版本号
-	 * @Author JieHong
-	 * @Date 2016年7月29日 上午10:56:18
-	 * @return
-	 */
-	public int version() {
+	@Override
+	public MonitorResult aggregate() {
 		MonitorResult mr = new MonitorResult();
 
 		for (Item item : items) {
@@ -73,8 +50,7 @@ public class MonitorItem extends AbstractMonitor {
 			mr.pay_kh = mr.pay_kh.add(item.pay_kh);
 		}
 
-		results.add(mr);
-		return results.size() - 1;
+		return mr;
 	}
 
 }

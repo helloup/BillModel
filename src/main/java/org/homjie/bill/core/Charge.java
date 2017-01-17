@@ -25,15 +25,13 @@ public class Charge implements Serializable, Comparable<Charge> {
 
 	List<Charge> charges = Lists.newArrayList();
 
-	transient List<MonitorCharge> monitors = Lists.newArrayList();
+	transient Monitor monitor = new MonitorCharge(this);
 
 	SettleItem stlItem;
 
 	SettleCharge stlCharge;
 
 	transient Charge parent;
-
-	private boolean needValidate = true;
 
 	/**
 	 * @Title priority
@@ -57,7 +55,6 @@ public class Charge implements Serializable, Comparable<Charge> {
 	 * @return
 	 */
 	public Charge addCharge(Charge charge) {
-		needValidate = true;
 		charges.add(charge);
 		charge.parent = this;
 		return this;
@@ -72,8 +69,20 @@ public class Charge implements Serializable, Comparable<Charge> {
 	 * @return
 	 */
 	public Charge addItem(Item item) {
-		needValidate = true;
 		items.add(item);
+		return this;
+	}
+
+	/**
+	 * @Title addItem
+	 * @Description 批量添加明细项
+	 * @Author JieHong
+	 * @Date 2016年7月28日 下午3:30:08
+	 * @param list
+	 * @return
+	 */
+	public Charge addItem(List<Item> list) {
+		list.forEach(this::addItem);
 		return this;
 	}
 
@@ -86,7 +95,6 @@ public class Charge implements Serializable, Comparable<Charge> {
 	 * @return
 	 */
 	public Charge settle(SettleItem sItem) {
-		needValidate = true;
 		this.stlItem = sItem;
 		return this;
 	}
@@ -100,22 +108,19 @@ public class Charge implements Serializable, Comparable<Charge> {
 	 * @return
 	 */
 	public Charge settle(SettleCharge sCharge) {
-		needValidate = true;
 		this.stlCharge = sCharge;
 		return this;
 	}
 
 	/**
-	 * @Title addMonitor
-	 * @Description 添加监控器
+	 * @Title haveCharges
+	 * @Description 是否包含Charge
 	 * @Author JieHong
-	 * @Date 2016年7月29日 上午10:42:58
-	 * @param monitor
-	 * @return 获取该Charge在监控器的索引
+	 * @Date 2016年8月3日 上午10:51:50
+	 * @return
 	 */
-	public int addMonitor(MonitorCharge monitor) {
-		monitors.add(monitor);
-		return monitor.link(this);
+	public boolean haveCharges() {
+		return items.isEmpty();
 	}
 
 	/**
@@ -126,8 +131,7 @@ public class Charge implements Serializable, Comparable<Charge> {
 	 * @return
 	 */
 	public BigDecimal complete() {
-		if (needValidate)
-			validate();
+		validate();
 		return complete(BigDecimal.ZERO);
 	}
 
@@ -159,10 +163,7 @@ public class Charge implements Serializable, Comparable<Charge> {
 	 * @Date 2016年7月26日 下午5:16:27
 	 */
 	void validate() {
-
 		validate(this);
-
-		needValidate = false;
 	}
 
 	/**
@@ -213,8 +214,8 @@ public class Charge implements Serializable, Comparable<Charge> {
 		return charges;
 	}
 
-	public List<MonitorCharge> getMonitors() {
-		return monitors;
+	public Monitor getMonitor() {
+		return monitor;
 	}
 
 	public SettleItem getStlItem() {
@@ -225,7 +226,7 @@ public class Charge implements Serializable, Comparable<Charge> {
 		return stlCharge;
 	}
 
-	public Charge getRoot() {
+	Charge getRoot() {
 		Charge root = null;
 		if (parent == null) {
 			root = this;

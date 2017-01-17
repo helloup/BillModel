@@ -40,7 +40,7 @@ public class Item implements Serializable {
 	 */
 	BigDecimal pay_kh = BigDecimal.ZERO;
 
-	transient List<MonitorItem> monitors = Lists.newArrayList();
+	transient List<Monitor> monitors = Lists.newArrayList();
 
 	public Item(BigDecimal pay_yh, BigDecimal pay_sh) {
 		checkNotNull(pay_yh);
@@ -56,11 +56,10 @@ public class Item implements Serializable {
 	 * @Author JieHong
 	 * @Date 2016年7月29日 上午10:47:26
 	 * @param monitor
-	 * @return 获取该Item在监控器的索引
 	 */
-	public int addMonitor(MonitorItem monitor) {
+	public void addMonitor(MonitorItem monitor) {
 		monitors.add(monitor);
-		return monitor.link(this);
+		monitor.link(this);
 	}
 
 	/**
@@ -96,7 +95,7 @@ public class Item implements Serializable {
 		return pay_kh;
 	}
 
-	public List<MonitorItem> getMonitors() {
+	public List<Monitor> getMonitors() {
 		return monitors;
 	}
 

@@ -56,11 +56,20 @@ public class Settle {
 				return money;
 
 			} else {
-				if (sc.equals(SettleCharge.NONE))
+				boolean isNone = sc.equals(SettleCharge.NONE);
+				if (isNone)
 					Collections.sort(charge.charges);
+
 				// 包含多个Charge
 				for (Charge c : charge.charges) {
+					// 结清收费所需金额为0，忽略
+					if (c.completeWithoutValidate().compareTo(BigDecimal.ZERO) == 0)
+						continue;
+					BigDecimal duplicate = money;
 					money = result(c, money);
+					// NONE具有优先级，还款前金额等于还款后金额将导致结算中断
+					if (isNone && duplicate.compareTo(money) == 0)
+						break;
 				}
 			}
 
